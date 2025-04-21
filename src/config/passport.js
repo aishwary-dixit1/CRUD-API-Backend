@@ -30,13 +30,12 @@ passport.use(
         return done(null, existingUser);
       }
 
-      // Create new user
       const newUser = await prisma.user.create({
         data: {
           name: profile.displayName,
           email: profile.emails[0].value,
           apiKey: uuidv4(),
-          apiUrl: `https://aishwary-api/api/crud/${profile.emails[0].value}`, // can be dynamic per user later
+          apiUrl: `https://aishwary-api/api/crud/${profile.emails[0].value}`,
         },
       });
 
