@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import session from 'express-session';
 import passport from 'passport';
 import { PrismaClient } from '@prisma/client';
+import cookieParser from "cookie-parser";
 
 import authRoutes from './routes/auth.js';
 import crudRoutes from './routes/crud.js';
@@ -18,9 +19,10 @@ const PORT = process.env.PORT || 5000;
 
 
 app.use(cors({
-  origin: process.env.CLIENT_URL,
+  origin: process.env.CLIENT_URL || "http://localhost:5173",
   credentials: true
 }));
+app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(express.json());
 
