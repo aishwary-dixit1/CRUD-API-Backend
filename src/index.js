@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 5000;
 
 
 app.use(cors({
-  origin: process.env.CLIENT_URL,
+  origin: "https://aishwary-crud-api.netlify.app",
   credentials: true
 }));
 app.use(morgan('dev'));
