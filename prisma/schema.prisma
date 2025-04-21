@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  apiKey    String   @unique
+  apiUrl    String
+  credits   Int      @default(4)
+  recharged Boolean  @default(false)
+  todos     Todo[]   // Relation to Todo model
+  entries   Entry[]  // Reverse relation to Entry model
+}
+
+model Entry {
+  id        String   @id @default(uuid())
+  userId    String
+  value     Float
+  txHash    String
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Todo {
+  id        String   @id @default(uuid())
+  value     String
+  txHash    String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
