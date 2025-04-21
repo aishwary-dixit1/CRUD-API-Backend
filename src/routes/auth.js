@@ -22,6 +22,7 @@ router.get(
 router.get('/me', (req, res) => {
   if (req.isAuthenticated()) {
     const { id, name, email, apiKey, apiUrl, credits, recharged } = req.user;
+    console.log("req -> ", req.user);
     res.json({ id, name, email, apiKey, apiUrl, credits, recharged });
   } else {
     res.status(401).json({ message: 'Unauthorized' });
