@@ -4,6 +4,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import session from 'express-session';
 import passport from 'passport';
+import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import { PrismaClient } from '@prisma/client';
 import cookieParser from "cookie-parser";
 
@@ -32,10 +33,14 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    secure: true,       // ensures cookie is only sent over HTTPS
-    sameSite: 'none',   // allows cross-site cookie (important for Render <-> Vercel)
+    secure: true,
+    sameSite: 'none',
     maxAge: 24 * 60 * 60 * 1000, // 1 day
   },
+  store: new PrismaSessionStore(prisma, {
+    checkPeriod: 2 * 60 * 1000, // Remove expired sessions every 2 minutes
+    dbRecordIdIsSessionId: true,
+  }),
 }));
 
 app.use(passport.initialize());
