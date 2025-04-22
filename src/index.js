@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import session from 'express-session';
 import passport from 'passport';
 import { PrismaClient } from '@prisma/client';
+import cookieParser from "cookie-parser";
 
 import authRoutes from './routes/auth.js';
 import crudRoutes from './routes/crud.js';
@@ -16,13 +17,14 @@ const prisma = new PrismaClient();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-
+app.use(cookieParser());
 app.use(cors({
   origin: "https://aishwary-crud-api.netlify.app",
   credentials: true
 }));
 app.use(morgan('dev'));
 app.use(express.json());
+app.set("trust proxy", 1);
 
 app.use(session({
   secret: process.env.SESSION_SECRET,
