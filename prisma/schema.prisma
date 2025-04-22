@@ -39,10 +39,12 @@ model Todo {
 }
 
 model Session {
-  id           String   @id @default(cuid())
-  sid          String   @unique
-  data         String
-  expiresAt    DateTime
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id            String   @id @default(cuid())
+  sid           String   @unique
+  data          String
+  expiresAt     DateTime @map("expires_at")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("Session")
 }
